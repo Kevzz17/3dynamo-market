@@ -9,7 +9,7 @@ export function initializeFooter() {
     <div class="footer-container">
       <div class="footer-column">
         <a href="/" class="footer-logo">
-          <img src="/src/Assets/LogoIMG.png" alt="3Dynamo Logo" class="logo-icon footer-icon">
+          <img src="/Assets/LogoIMG.png" alt="3Dynamo Logo" class="logo-icon footer-icon">
           3Dynamo
         </a>
         <p class="footer-about">3Dynamo, tu siempre confiable, ofrece una selección de productos de alta calidad para tu satisfacción como comprador. Nos enfocamos en el cliente siempre :).</p>

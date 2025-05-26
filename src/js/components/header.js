@@ -11,8 +11,8 @@ export function initializeHeader() {
   header.innerHTML = `
     <div class="header-container">
       <a href="/" class="logo">
-        <img src="/src/Assets/LogoIMG.png" alt="3Dynamo Logo" class="logo-icon">
-        <img src="/src/Assets/LogoTXT.png" alt="3Dynamo Logo" class="logo-icon">
+        <img src="/Assets/LogoIMG.png" alt="3Dynamo Logo" class="logo-icon">
+        <img src="/Assets/LogoTXT.png" alt="3Dynamo Logo" class="logo-icon">
       </a>
 
       <div class="search-bar">
@@ -86,7 +86,7 @@ export function initializeHeader() {
     if (e.target.tagName === "A") {
       closeMobileMenu();
       setTimeout(() => {
-        window.location.reload();
+        window.location.href = window.location.href;
       }, 300);
     }
   });
@@ -96,7 +96,7 @@ export function initializeHeader() {
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
       setTimeout(() => {
-        window.location.reload();
+        window.location.href = window.location.href;
       }, 300);
     });
   });
