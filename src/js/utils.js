@@ -6,10 +6,10 @@
  * @param {string} currency - Currency code (default: USD)
  * @returns {string} Formatted price
  */
-export function formatPrice(price, currency = 'COP') {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: currency
+export function formatPrice(price, currency = "COP") {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: currency,
   }).format(price);
 }
 
@@ -19,7 +19,7 @@ export function formatPrice(price, currency = 'COP') {
  * @returns {string} Sanitized HTML
  */
 export function sanitizeHTML(html) {
-  const temp = document.createElement('div');
+  const temp = document.createElement("div");
   temp.textContent = html;
   return temp.innerHTML;
 }
@@ -30,7 +30,9 @@ export function sanitizeHTML(html) {
  * @returns {string} Random ID
  */
 export function generateId(length = 8) {
-  return Math.random().toString(36).substring(2, 2 + length);
+  return Math.random()
+    .toString(36)
+    .substring(2, 2 + length);
 }
 
 /**
@@ -41,13 +43,13 @@ export function generateId(length = 8) {
  */
 export function debounce(func, wait = 300) {
   let timeout;
-  
+
   return function executedFunction(...args) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
     };
-    
+
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
@@ -59,11 +61,11 @@ export function debounce(func, wait = 300) {
  * @param {string} type - Type of skeleton (product, category)
  * @returns {string} HTML string for skeleton loaders
  */
-export function createSkeletonLoaders(count, type = 'product') {
-  let html = '';
-  
+export function createSkeletonLoaders(count, type = "product") {
+  let html = "";
+
   for (let i = 0; i < count; i++) {
-    if (type === 'product') {
+    if (type === "product") {
       html += `
         <div class="product-card skeleton-product-card">
           <div class="skeleton skeleton-image"></div>
@@ -78,7 +80,7 @@ export function createSkeletonLoaders(count, type = 'product') {
       `;
     }
   }
-  
+
   return html;
 }
 
@@ -86,11 +88,11 @@ export function createSkeletonLoaders(count, type = 'product') {
  * Lazy load images
  */
 export function initLazyLoading() {
-  if ('IntersectionObserver' in window) {
-    const lazyImages = document.querySelectorAll('[data-src]');
-    
+  if ("IntersectionObserver" in window) {
+    const lazyImages = document.querySelectorAll("[data-src]");
+
     const imageObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const img = entry.target;
           img.src = img.dataset.src;
@@ -98,15 +100,15 @@ export function initLazyLoading() {
         }
       });
     });
-    
-    lazyImages.forEach(img => {
+
+    lazyImages.forEach((img) => {
       imageObserver.observe(img);
     });
   } else {
     // Fallback for browsers that don't support Intersection Observer
-    const lazyImages = document.querySelectorAll('[data-src]');
-    
-    lazyImages.forEach(img => {
+    const lazyImages = document.querySelectorAll("[data-src]");
+
+    lazyImages.forEach((img) => {
       img.src = img.dataset.src;
     });
   }
@@ -123,13 +125,13 @@ export function initLazyLoading() {
 export function createWhatsAppLink(phoneNumber, productName, productId, price) {
   const formattedPrice = formatPrice(price);
   const message = `
-👋 Hello! I'm interested in purchasing:
+👋 Hola! Estoy interesado en comprar:
 
-🛍️ Product: ${productName}
-💰 Price: ${formattedPrice}
-📦 Product ID: #${productId}
+🛍️ Producto: ${productName}
+💰 Precio: ${formattedPrice}
+📦 ID del producto: #${productId}
 
-Could you please provide more information about availability and shipping?
+¿Puedes proporcionarme más información sobre este producto?
 `;
   return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 }

@@ -18,7 +18,7 @@ export function loadHomePage(mainContent) {
     </div>
 
     <section class="featured-section">
-      <h2>Productos DESTACADOS</h2>
+      <h2>Productos destacados</h2>
       <div class="product-grid">
         ${createSkeletonLoaders(4, "product")}
       </div>
@@ -47,8 +47,8 @@ export function loadHomePage(mainContent) {
 
 function renderHomePage(mainContent) {
   // Get products
-  const featuredProducts = getProductsByCategory("featured").slice(0, 4);
-  const newProducts = getProductsByCategory("new").slice(0, 4);
+  const featuredProducts = getProductsByCategory("destacado").slice(0, 4);
+  const newProducts = getProductsByCategory("nuevo").slice(0, 4);
   const categories = getAllCategories().filter((cat) => cat !== "todo");
 
   // Hero banner
