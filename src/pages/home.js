@@ -8,7 +8,7 @@ import { navigateTo } from "../js/router.js";
 
 export function loadHomePage(mainContent) {
   // Set title
-  document.title = "3Dynamo - Marketplace";
+  document.title = "3Dynamo - Tienda Online";
 
   // Show loading skeletons
   mainContent.innerHTML = `
