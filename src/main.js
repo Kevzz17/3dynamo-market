@@ -1,5 +1,6 @@
 import './css/style.css';
 import './css/components.css';
+import './css/admin.css';
 import { initializeRouter } from './js/router.js';
 import { initializeHeader } from './js/components/header.js';
 import { initializeFooter } from './js/components/footer.js';
