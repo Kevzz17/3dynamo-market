@@ -2,7 +2,6 @@
 import { loadHomePage } from '../pages/home.js';
 import { loadProductPage } from '../pages/product.js';
 import { loadCategoryPage } from '../pages/category.js';
-import { loadAdminPage } from '../pages/admin.js';
 import { loadErrorPage } from '../pages/error.js';
 
 // Routes configuration
@@ -10,7 +9,6 @@ const routes = [
   { path: '/', handler: loadHomePage },
   { path: '/product/:id', handler: loadProductPage, dynamic: true },
   { path: '/category/:id', handler: loadCategoryPage, dynamic: true },
-  { path: '/admin', handler: loadAdminPage },
   { path: '*', handler: loadErrorPage }
 ];
 
