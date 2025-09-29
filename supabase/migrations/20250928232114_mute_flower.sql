@@ -1,5 +1,5 @@
 /*
-  # Product Database Management System
+  # Product Database Management System s
 
   1. New Tables
     - `categories`
