@@ -6,7 +6,7 @@ import {
 } from "../js/utils.js";
 import { navigateTo } from "../js/router.js";
 
-export function loadHomePage(mainContent) {
+export async function loadHomePage(mainContent) {
   // Set title
   document.title = "3Dynamo - Tienda Online";
 
@@ -40,16 +40,14 @@ export function loadHomePage(mainContent) {
   `;
 
   // Simulate API fetch delay
-  setTimeout(() => {
-    renderHomePage(mainContent);
-  }, 500);
+  await renderHomePage(mainContent);
 }
 
-function renderHomePage(mainContent) {
+async function renderHomePage(mainContent) {
   // Get products
-  const featuredProducts = getProductsByCategory("destacado").slice(0, 4);
-  const newProducts = getProductsByCategory("nuevo").slice(0, 4);
-  const categories = getAllCategories().filter((cat) => cat !== "todo");
+  const featuredProducts = (await getProductsByCategory("destacado")).slice(0, 4);
+  const newProducts = (await getProductsByCategory("nuevo")).slice(0, 4);
+  const categories = (await getAllCategories()).filter((cat) => cat !== "todo");
 
   // Hero banner
   const hero = `

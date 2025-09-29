@@ -11,7 +11,7 @@ import {
 } from "../js/utils.js";
 import { navigateTo } from "../js/router.js";
 
-export function loadCategoryPage(mainContent, params, searchParams) {
+export async function loadCategoryPage(mainContent, params, searchParams) {
   const categoryId = params.id || "todo";
   const searchQuery = searchParams.get("search");
 
@@ -41,21 +41,19 @@ export function loadCategoryPage(mainContent, params, searchParams) {
   `;
 
   // Simulate API fetch delay
-  setTimeout(() => {
-    renderCategoryPage(mainContent, categoryId, searchQuery);
-  }, 500);
+  await renderCategoryPage(mainContent, categoryId, searchQuery);
 }
 
-function renderCategoryPage(mainContent, categoryId, searchQuery) {
+async function renderCategoryPage(mainContent, categoryId, searchQuery) {
   // Get all categories for the filter
-  const allCategories = getAllCategories();
+  const allCategories = await getAllCategories();
 
   // Get products based on category and search query
   let products = [];
   if (searchQuery) {
-    products = searchProducts(searchQuery);
+    products = await searchProducts(searchQuery);
   } else {
-    products = getProductsByCategory(categoryId);
+    products = await getProductsByCategory(categoryId);
   }
 
   // Create a category filter

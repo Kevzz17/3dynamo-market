@@ -69,7 +69,7 @@ export function navigateTo(url) {
 }
 
 // Handle route change
-function handleRouteChange() {
+async function handleRouteChange() {
   const { pathname, searchParams } = parseUrl(window.location.href);
   const { route, params } = matchRoute(pathname);
   
@@ -84,7 +84,7 @@ function handleRouteChange() {
   `;
   
   // Execute the route handler
-  route.handler(mainContent, params, searchParams);
+  await route.handler(mainContent, params, searchParams);
   
   // Scroll to the top
   window.scrollTo(0, 0);
@@ -93,10 +93,12 @@ function handleRouteChange() {
 // Initialize the router
 export function initializeRouter() {
   // Handle initial page load
-  handleRouteChange();
+  handleRouteChange().catch(console.error);
   
   // Handle browser back/forward navigation
-  window.addEventListener('popstate', handleRouteChange);
+  window.addEventListener('popstate', () => {
+    handleRouteChange().catch(console.error);
+  });
   
   // Intercept link clicks for SPA navigation
   document.addEventListener('click', (e) => {

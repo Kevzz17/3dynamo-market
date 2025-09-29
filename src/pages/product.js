@@ -2,7 +2,7 @@ import { getProductById } from "../data/products.js";
 import { formatPrice, createWhatsAppLink } from "../js/utils.js";
 import { navigateTo } from "../js/router.js";
 
-export function loadProductPage(mainContent, params) {
+export async function loadProductPage(mainContent, params) {
   const productId = params.id;
 
   // Show loading state
@@ -40,12 +40,12 @@ export function loadProductPage(mainContent, params) {
     </div>
   `;
 
-  renderProductPage(mainContent, productId);
+  await renderProductPage(mainContent, productId);
 }
 
-function renderProductPage(mainContent, productId) {
+async function renderProductPage(mainContent, productId) {
   // Get product data
-  const product = getProductById(productId);
+  const product = await getProductById(productId);
 
   // If product not found, show error
   if (!product) {
