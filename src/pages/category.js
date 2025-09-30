@@ -116,7 +116,12 @@ function createProductCard(product) {
   return `
     <div class="product-card" data-product-id="${product.id}">
       <div class="product-card-image">
-        <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
+        <img
+          data-src="${product.images[0]}"
+          alt="${product.name}"
+          class="lazy-image"
+          decoding="async"
+        />
       </div>
       <div class="product-card-body">
         <h3 class="product-card-title">${product.name}</h3>

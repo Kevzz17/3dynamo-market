@@ -5,6 +5,7 @@ import {
   initLazyLoading,
 } from "../js/utils.js";
 import { navigateTo } from "../js/router.js";
+import { imageOptimizer } from "../js/image-optimizer.js";
 
 export async function loadHomePage(mainContent) {
   // Set title
@@ -49,7 +50,9 @@ async function renderHomePage(mainContent) {
   const newProducts = (await getProductsByCategory("nuevo")).slice(0, 4);
   const categories = (await getAllCategories()).filter((cat) => cat !== "todo");
 
-  // Hero banner
+  const heroImageUrl = 'https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1920&h=750&dpr=1';
+  imageOptimizer.preloadCriticalImages([heroImageUrl]);
+
   const hero = `
     <div class="hero-banner animate-fade-in">
       <div class="hero-content">
@@ -140,7 +143,12 @@ function createProductCard(product) {
   return `
     <div class="product-card" data-product-id="${product.id}">
       <div class="product-card-image">
-        <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
+        <img
+          data-src="${product.images[0]}"
+          alt="${product.name}"
+          class="lazy-image"
+          decoding="async"
+        />
       </div>
       <div class="product-card-body">
         <h3 class="product-card-title">${product.name}</h3>

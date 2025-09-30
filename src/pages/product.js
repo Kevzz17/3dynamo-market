@@ -1,6 +1,7 @@
 import { getProductById } from "../data/products.js";
 import { formatPrice, createWhatsAppLink } from "../js/utils.js";
 import { navigateTo } from "../js/router.js";
+import { imageOptimizer } from "../js/image-optimizer.js";
 
 export async function loadProductPage(mainContent, params) {
   const productId = params.id;
@@ -61,8 +62,9 @@ async function renderProductPage(mainContent, productId) {
     return;
   }
 
-  // Set page title
   document.title = `${product.name}`;
+
+  imageOptimizer.preloadCriticalImages([product.images[0]]);
 
   // Create the WhatsApp link
   const whatsappLink = createWhatsAppLink(
@@ -72,18 +74,28 @@ async function renderProductPage(mainContent, productId) {
     product.price,
   );
 
-  // Create product gallery
   const productGallery = `
     <div class="product-gallery animate-fade-in">
       <div class="product-main-image" id="main-product-image">
-        <img src="${product.images[0]}" alt="${product.name}" id="featured-image">
+        <img
+          src="${product.images[0]}"
+          alt="${product.name}"
+          id="featured-image"
+          decoding="async"
+          fetchpriority="high"
+        />
       </div>
       <div class="product-thumbnails">
         ${product.images
           .map(
             (image, index) => `
           <div class="product-thumbnail ${index === 0 ? "active" : ""}" data-image="${image}">
-            <img src="${image}" alt="${product.name} ${index + 1}">
+            <img
+              ${index === 0 ? 'src' : 'data-src'}="${image}"
+              alt="${product.name} ${index + 1}"
+              ${index === 0 ? '' : 'class="lazy-image"'}
+              decoding="async"
+            />
           </div>
         `,
           )
@@ -139,11 +151,16 @@ async function renderProductPage(mainContent, productId) {
     </div>
   `;
 
-  // Create zoom overlay
   const zoomOverlay = `
     <div class="zoom-overlay" id="zoom-overlay">
       <div class="zoom-image-container">
-        <img src="${product.images[0]}" alt="${product.name}" class="zoom-image" id="zoom-image">
+        <img
+          src="${product.images[0]}"
+          alt="${product.name}"
+          class="zoom-image"
+          id="zoom-image"
+          decoding="async"
+        />
       </div>
       <button class="zoom-close" id="zoom-close" aria-label="Close zoom view">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -174,8 +191,14 @@ async function renderProductPage(mainContent, productId) {
     </div>
   `;
 
-  // Add event listeners
   initializeProductPage();
+
+  const lazyThumbnails = document.querySelectorAll('.product-thumbnail .lazy-image');
+  if (lazyThumbnails.length > 0) {
+    import('../js/image-optimizer.js').then(({ imageOptimizer }) => {
+      imageOptimizer.observe(lazyThumbnails);
+    });
+  }
 }
 
 function initializeProductPage() {

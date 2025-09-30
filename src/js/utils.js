@@ -85,33 +85,13 @@ export function createSkeletonLoaders(count, type = "product") {
 }
 
 /**
- * Lazy load images
+ * Lazy load images using the optimized image loader
  */
 export function initLazyLoading() {
-  if ("IntersectionObserver" in window) {
-    const lazyImages = document.querySelectorAll("[data-src]");
-
-    const imageObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          imageObserver.unobserve(img);
-        }
-      });
-    });
-
-    lazyImages.forEach((img) => {
-      imageObserver.observe(img);
-    });
-  } else {
-    // Fallback for browsers that don't support Intersection Observer
-    const lazyImages = document.querySelectorAll("[data-src]");
-
-    lazyImages.forEach((img) => {
-      img.src = img.dataset.src;
-    });
-  }
+  import('./image-optimizer.js').then(({ imageOptimizer }) => {
+    const lazyImages = document.querySelectorAll('.lazy-image, [data-src]');
+    imageOptimizer.observe(lazyImages);
+  });
 }
 
 /**
